@@ -1,24 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
 
 function App() {
+  const tasks = [{
+    id: 1,
+    title: "placholder",
+  },
+  {
+    id: 2,
+    title: "sdsdsdsdsd",
+  }];
+
+  console.log(tasks);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <article>
+      <h1>To do app</h1>
+      <form>
+        <input type="text" />
+        <button type="submit">добавить</button>
+      </form>
+      <section>
+        <ul>
+          {tasks.length <= 0 && (
+            <p>Список задач пуст</p>
+          )
+          }
+
+          {tasks.map((task) => {
+            return (
+              <li key={task.id}>{task.title}</li>
+            )
+          })
+          }
+        </ul>
+      </section>
+    </article>
   );
 }
 
