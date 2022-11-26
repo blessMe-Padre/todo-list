@@ -1,22 +1,42 @@
+import { useState } from 'react';
 
 function App() {
-  const tasks = [{
-    id: 1,
-    title: "placholder",
-  },
-  {
-    id: 2,
-    title: "sdsdsdsdsd",
-  }];
+  const [tasks, setTasks] = useState([]);
+  const [inputValue, setInputValue] = useState('');
 
-  console.log(tasks);
+  const generateId = () => (Math.random().toString(16).slice(2) + new Date().getTime().toString(36));
+
+  const taskAdd = (title) => {
+    setTasks([
+      ...tasks,
+      {
+        id: generateId(),
+        title,
+      }
+    ]);
+  }
+
   return (
     <article>
-      <h1>To do app</h1>
-      <form>
-        <input type="text" />
-        <button type="submit">добавить</button>
-      </form>
+      <h1>Список дел</h1>
+      <div>
+        <input
+          type="text"
+          value={inputValue}
+          placeholder="введите задачу"
+          onChange={(evt) => {
+            setInputValue(evt.target.value);
+          }}
+        />
+        <button
+          onClick={() => {
+            taskAdd(inputValue);
+            setInputValue('')
+          }}
+        >
+          добавить
+        </button>
+      </div>
       <section>
         <ul>
           {tasks.length <= 0 && (
