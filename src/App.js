@@ -1,5 +1,8 @@
 import { useState } from 'react';
 
+import Form from './components/form/Form';
+import TaskList from './components/task-list/TaskList';
+
 function App() {
   const [tasks, setTasks] = useState([]);
   const [inputValue, setInputValue] = useState('');
@@ -7,51 +10,36 @@ function App() {
   const generateId = () => (Math.random().toString(16).slice(2) + new Date().getTime().toString(36));
 
   const taskAdd = (title) => {
-    setTasks([
-      ...tasks,
-      {
-        id: generateId(),
-        title,
-      }
-    ]);
+    if (inputValue) {
+      setTasks([
+        ...tasks,
+        {
+          id: generateId(),
+          title,
+          completed: false
+        }
+      ]);
+    }
   }
+
+  const taskRemove = (id) => {
+    setTasks(tasks.filter((task) => task.id !== id))
+  }
+
 
   return (
     <article>
       <h1>Список дел</h1>
-      <div>
-        <input
-          type="text"
-          value={inputValue}
-          placeholder="введите задачу"
-          onChange={(evt) => {
-            setInputValue(evt.target.value);
-          }}
-        />
-        <button
-          onClick={() => {
-            taskAdd(inputValue);
-            setInputValue('')
-          }}
-        >
-          добавить
-        </button>
-      </div>
-      <section>
-        <ul>
-          {tasks.length <= 0 && (
-            <p>Список задач пуст</p>
-          )
-          }
-
-          {tasks.map((task) => {
-            return (
-              <li key={task.id}>{task.title}</li>
-            )
-          })
-          }
-        </ul>
-      </section>
+      <Form
+        inputValue={inputValue}
+        setInputValue={setInputValue}
+        taskAdd={taskAdd}
+      />
+      <TaskList
+        taskRemove={taskRemove}
+        setTasks={setTasks}
+        tasks={tasks}
+      />
     </article>
   );
 }
