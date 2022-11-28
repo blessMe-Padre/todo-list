@@ -1,6 +1,10 @@
 import React from 'react';
+import { useState } from 'react';
 
 export default function TaskList({ tasks, setTasks, taskRemove }) {
+    const [isEditMode, setEditMode] = useState(false);
+    const [value, setValue] = useState('');
+
     const toggleTaskCompleted = (id) => {
         setTasks(
             tasks.map(
@@ -16,6 +20,12 @@ export default function TaskList({ tasks, setTasks, taskRemove }) {
         );
     }
 
+    const onEdited = (id, value) => {
+        setTasks(tasks.map((task) => task.id === id ? {
+            title: value
+        } : task));
+    }
+
     return (
         <section>
             <ul>
@@ -25,6 +35,7 @@ export default function TaskList({ tasks, setTasks, taskRemove }) {
                     return (
                         <li key={task.id}>
                             <input
+                                key={task.id}
                                 type="checkbox"
                                 checked={task.completed}
                                 onChange={() => {
@@ -36,7 +47,38 @@ export default function TaskList({ tasks, setTasks, taskRemove }) {
                                 }
                             />
 
-                            <span>{task.title}</span>
+                            {isEditMode ? (
+                                <input
+                                    type="text"
+                                    value={value}
+                                    onChange={(evt) => {
+                                        setValue(evt.target.value);
+                                    }
+                                    }
+
+                                />
+                            ) : (<span>{task.title}</span>)}
+
+                            {isEditMode ? (
+                                <button
+                                    onClick={() => {
+                                        onEdited(task.id, value);
+                                        setEditMode(false);
+                                    }}
+                                    arial-label="Сохранить"
+                                >
+                                    Сохранить
+                                </button>
+                            ) : (
+                                <button
+                                    onClick={() => {
+                                        setEditMode(!isEditMode)
+                                    }}
+                                    arial-label="Редактировать"
+                                >
+                                    Редактировать
+                                </button>
+                            )}
 
                             <button
                                 onClick={() => {
