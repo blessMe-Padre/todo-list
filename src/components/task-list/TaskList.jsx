@@ -2,7 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 
 export default function TaskList({ tasks, setTasks, taskRemove }) {
-    const [isEditMode, setEditMode] = useState(false);
+    const [isEditMode, setEditMode] = useState(null);
     const [value, setValue] = useState('');
 
     const toggleTaskCompleted = (id) => {
@@ -20,10 +20,21 @@ export default function TaskList({ tasks, setTasks, taskRemove }) {
         );
     }
 
-    const onEdited = (id, value) => {
-        setTasks(tasks.map((task) => task.id === id ? {
-            title: value
-        } : task));
+    const onEdited = (id, inputValue) => {
+        console.log(isEditMode);
+        setTasks(
+            tasks.map(
+                task => {
+                    if (task.id !== id) return task;
+
+                    return {
+                        ...task,
+                        title: inputValue,
+                        id: task.id
+                    }
+                }
+            )
+        );
     }
 
     return (
@@ -47,8 +58,8 @@ export default function TaskList({ tasks, setTasks, taskRemove }) {
                                 }
                             />
 
-                            {isEditMode ? (
-                                <input
+                            {isEditMode == task.id ? (
+                                < input
                                     type="text"
                                     value={value}
                                     onChange={(evt) => {
@@ -59,7 +70,7 @@ export default function TaskList({ tasks, setTasks, taskRemove }) {
                                 />
                             ) : (<span>{task.title}</span>)}
 
-                            {isEditMode ? (
+                            {isEditMode === task.id ? (
                                 <button
                                     onClick={() => {
                                         onEdited(task.id, value);
@@ -72,7 +83,7 @@ export default function TaskList({ tasks, setTasks, taskRemove }) {
                             ) : (
                                 <button
                                     onClick={() => {
-                                        setEditMode(!isEditMode)
+                                        setEditMode(task.id)
                                     }}
                                     arial-label="Редактировать"
                                 >

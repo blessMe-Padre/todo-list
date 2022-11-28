@@ -26,7 +26,6 @@ function App() {
     setTasks(tasks.filter((task) => task.id !== id))
   }
 
-
   return (
     <article>
       <h1>Список дел</h1>
