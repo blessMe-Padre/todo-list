@@ -2,7 +2,8 @@ import React from 'react';
 import { useState, useRef, useEffect } from 'react';
 
 import { ButtonDelete, ButtonEdit, ButtonSave } from '../buttons/Buttons';
-import { TaskItem, TaskWrapper, TaskListStyled } from './styled';
+import { InputEdit, InputLabel, InputCheckBox, Label, Input2 } from '../input/Input';
+import { TaskItem, TaskWrapper, TaskListStyled, TaskWrapperLeft } from './styled';
 
 export default function TaskList({ tasks, setTasks, taskRemove }) {
     const [isEditMode, setEditMode] = useState();
@@ -55,9 +56,12 @@ export default function TaskList({ tasks, setTasks, taskRemove }) {
                 {tasks.map((task) => {
                     return (
                         <TaskItem key={task.id}>
-                            <TaskWrapper>
-                                <input
+                            <TaskWrapperLeft>
+
+                                <InputLabel />
+                                <InputCheckBox
                                     key={task.id}
+                                    id={task.id}
                                     type="checkbox"
                                     checked={task.completed}
                                     onChange={() => {
@@ -66,8 +70,16 @@ export default function TaskList({ tasks, setTasks, taskRemove }) {
                                     }
                                 />
 
+
+                                {/* <div>
+                                    <Input2
+                                        type="checkbox"
+                                    />
+                                    <Label />
+                                </div> */}
+
                                 {isEditMode === task.id ? (
-                                    < input
+                                    < InputEdit
                                         type="text"
                                         ref={editTitleInputRef}
                                         value={value}
@@ -78,7 +90,7 @@ export default function TaskList({ tasks, setTasks, taskRemove }) {
 
                                     />
                                 ) : (<span>{task.title}</span>)}
-                            </TaskWrapper>
+                            </TaskWrapperLeft>
                             <TaskWrapper>
                                 {isEditMode === task.id ? (
                                     <ButtonSave

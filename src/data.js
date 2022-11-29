@@ -26,7 +26,17 @@ export const data = [
     },
     {
         id: 6,
+        title: 'подключить шрифты',
+        completed: false
+    },
+    {
+        id: 7,
         title: 'focus в поле редактирование',
         completed: true
+    },
+    {
+        id: 8,
+        title: 'ввод задачи по enter',
+        completed: false
     },
 ]

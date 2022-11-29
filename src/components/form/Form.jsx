@@ -1,6 +1,9 @@
 import React from 'react';
 
 import { ButtonAdd } from '../buttons/Buttons';
+import { Input } from '../input/Input';
+import { FormStyled } from './styled';
+
 
 export default function Form({ inputValue, setInputValue, taskAdd }) {
     const formHandler = (event) => {
@@ -8,8 +11,8 @@ export default function Form({ inputValue, setInputValue, taskAdd }) {
     }
 
     return (
-        <form onSubmit={formHandler}>
-            <input
+        <FormStyled onSubmit={formHandler}>
+            <Input
                 type="text"
                 value={inputValue}
                 placeholder="введите задачу"
@@ -25,6 +28,6 @@ export default function Form({ inputValue, setInputValue, taskAdd }) {
                 }}
                 arial-label="Добавить"
             />
-        </form>
+        </FormStyled>
     )
 }
