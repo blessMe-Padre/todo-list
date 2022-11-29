@@ -24,4 +24,9 @@ export const data = [
         title: 'Деплой github pages.',
         completed: false
     },
+    {
+        id: 6,
+        title: 'focus в поле редактирование',
+        completed: false
+    },
 ]

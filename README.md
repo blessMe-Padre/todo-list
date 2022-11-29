@@ -1,6 +1,12 @@
-# Getting Started with Create React App
+# To Do List
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Приложение "Список дел". Учебный проект на react, для изучения react хуков и работы с массивами данных.
+
+## Реализованный функционал
+
+1.) Добавление задачи.
+2.) Удаление задачи.
+3.) Редактирование задачи.
 
 ## Available Scripts
 
@@ -10,17 +16,6 @@ In the project directory, you can run:
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-## Реализованный функционал
-
-Добавление задачи.\
-
-Удаление задачи.\
-
-Редактирование задачи.\
 
 
 
