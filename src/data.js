@@ -27,6 +27,6 @@ export const data = [
     {
         id: 6,
         title: 'focus в поле редактирование',
-        completed: false
+        completed: true
     },
 ]

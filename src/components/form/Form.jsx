@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { ButtonAdd } from '../buttons/Buttons';
+
 export default function Form({ inputValue, setInputValue, taskAdd }) {
     const formHandler = (event) => {
         event.preventDefault();
@@ -15,15 +17,14 @@ export default function Form({ inputValue, setInputValue, taskAdd }) {
                     setInputValue(evt.target.value);
                 }}
             />
-            <button
+            <ButtonAdd
                 type="submit"
                 onClick={() => {
                     taskAdd(inputValue);
                     setInputValue('')
                 }}
-            >
-                добавить
-            </button>
+                arial-label="Добавить"
+            />
         </form>
     )
 }

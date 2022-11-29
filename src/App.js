@@ -3,6 +3,9 @@ import { useState } from 'react';
 import { data } from './data'
 import Form from './components/form/Form';
 import TaskList from './components/task-list/TaskList';
+import { PageWrapper, Title } from './components/page-wrapper/Page-wrapper';
+
+
 
 function App() {
   const [tasks, setTasks] = useState(data);
@@ -13,12 +16,12 @@ function App() {
   const taskAdd = (title) => {
     if (inputValue) {
       setTasks([
-        ...tasks,
         {
           id: generateId(),
           title,
           completed: false
-        }
+        },
+        ...tasks,
       ]);
     }
   }
@@ -28,8 +31,10 @@ function App() {
   }
 
   return (
-    <article>
-      <h1>Список дел</h1>
+
+    <PageWrapper>
+      <Title>Список дел</Title>
+
       <Form
         inputValue={inputValue}
         setInputValue={setInputValue}
@@ -40,7 +45,7 @@ function App() {
         setTasks={setTasks}
         tasks={tasks}
       />
-    </article>
+    </PageWrapper>
   );
 }
 
