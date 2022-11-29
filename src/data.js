@@ -39,4 +39,9 @@ export const data = [
         title: 'ввод задачи по enter',
         completed: false
     },
+    {
+        id: 9,
+        title: 'hover focus',
+        completed: false
+    },
 ]

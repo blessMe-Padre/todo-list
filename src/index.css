@@ -28,6 +28,8 @@ input:checked + span {
   width: 32px;
   height: 32px;
 
+  box-sizing: border-box;
+
   position: relative;
 
 display: flex;

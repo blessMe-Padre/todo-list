@@ -19,7 +19,10 @@ export const InputEdit = styled.input`
     background-color: transparent;
     border: none;
     font-size: 18px;
+    line-height: 20px;
     color:  var(--color-aliceblue);
+    min-height: 32px;
+    padding: 0 5px;
 `
 
 export const InputLabel = styled.label`
@@ -28,18 +31,17 @@ export const InputLabel = styled.label`
   height: 32px;
   width: 32px;
   position: relative;
+  box-sizing: border-box;
 
     &::before {
         position: absolute;
-            content: " ";
-            top: 0;
-            left: 0;
-            height: 32px;
-            width: 32px;
-            border: 1px solid var(--color-aliceblue);
-            }
-
-
+        content: " ";
+        top: 0;
+        left: 0;
+        height: 32px;
+        width: 32px;
+        border: 1px solid var(--color-aliceblue);
+    }
 `
 export const InputCheckBox = styled.input`
      position: absolute;
@@ -48,32 +50,16 @@ export const InputCheckBox = styled.input`
      height: 1px;
      margin: -1px;
 
-    // &:checked + ${InputLabel}::after{
-    //     position: absolute;
-    //     content: " ";
-    //     top: 0;
-    //     left: 0;
-    //     height: 32px;
-    //     width: 32px;
-    //     background-image: url(${imgSave});
-    //     background-size: 30px 30px;
-    //     background-repeat: no-repeat;
-    //     background-position: center;
-    //   }
-
-    &:checked + ${InputLabel}{
-        background: red;
+    &:checked + ${InputLabel}::after{
+        position: absolute;
+        content: " ";
+        top: 2px;
+        left: 2px;
+        height: 32px;
+        width: 32px;
+        background-image: url(${imgSave});
+        background-size: 30px 30px;
+        background-repeat: no-repeat;
+        background-position: center;
       }
 `
-
-export const Label = styled.label`
-  background: red;
-  display: block;
-  padding: 1rem;
-`;
-
-export const Input2 = styled.input`
-  &:checked + ${Label} {
-    background: blue;
-  }
-`;

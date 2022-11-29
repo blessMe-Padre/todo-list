@@ -58,7 +58,6 @@ export default function TaskList({ tasks, setTasks, taskRemove }) {
                         <TaskItem key={task.id}>
                             <TaskWrapperLeft>
 
-                                <InputLabel />
                                 <InputCheckBox
                                     key={task.id}
                                     id={task.id}
@@ -69,14 +68,7 @@ export default function TaskList({ tasks, setTasks, taskRemove }) {
                                     }
                                     }
                                 />
-
-
-                                {/* <div>
-                                    <Input2
-                                        type="checkbox"
-                                    />
-                                    <Label />
-                                </div> */}
+                                <InputLabel htmlFor={task.id} />
 
                                 {isEditMode === task.id ? (
                                     < InputEdit
