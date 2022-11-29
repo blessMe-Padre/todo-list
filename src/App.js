@@ -1,10 +1,11 @@
 import { useState } from 'react';
 
+import { data } from './data'
 import Form from './components/form/Form';
 import TaskList from './components/task-list/TaskList';
 
 function App() {
-  const [tasks, setTasks] = useState([]);
+  const [tasks, setTasks] = useState(data);
   const [inputValue, setInputValue] = useState('');
 
   const generateId = () => (Math.random().toString(16).slice(2) + new Date().getTime().toString(36));

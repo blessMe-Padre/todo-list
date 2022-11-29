@@ -2,8 +2,9 @@ import React from 'react';
 import { useState } from 'react';
 
 export default function TaskList({ tasks, setTasks, taskRemove }) {
-    const [isEditMode, setEditMode] = useState(null);
+    const [isEditMode, setEditMode] = useState();
     const [value, setValue] = useState('');
+
 
     const toggleTaskCompleted = (id) => {
         setTasks(
@@ -21,7 +22,6 @@ export default function TaskList({ tasks, setTasks, taskRemove }) {
     }
 
     const onEdited = (id, inputValue) => {
-        console.log(isEditMode);
         setTasks(
             tasks.map(
                 task => {
@@ -51,14 +51,11 @@ export default function TaskList({ tasks, setTasks, taskRemove }) {
                                 checked={task.completed}
                                 onChange={() => {
                                     toggleTaskCompleted(task.id);
-                                    setTimeout(() => {
-                                        taskRemove(task.id)
-                                    }, 2000);
                                 }
                                 }
                             />
 
-                            {isEditMode == task.id ? (
+                            {isEditMode === task.id ? (
                                 < input
                                     type="text"
                                     value={value}
@@ -83,7 +80,8 @@ export default function TaskList({ tasks, setTasks, taskRemove }) {
                             ) : (
                                 <button
                                     onClick={() => {
-                                        setEditMode(task.id)
+                                        setEditMode(task.id);
+                                        setValue(task.title)
                                     }}
                                     arial-label="Редактировать"
                                 >
