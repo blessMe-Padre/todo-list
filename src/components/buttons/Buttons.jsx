@@ -34,7 +34,7 @@ export const ButtonAdd = styled(Button)`
 export const ButtonInputRemove = styled(Button)`
     position: absolute;
     top: 0;
-    right: 60px;
+    right: 15px;
     background-image: url(${imgRemove});
     transform: rotate(45deg);
 `

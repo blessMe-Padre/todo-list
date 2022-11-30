@@ -2,12 +2,12 @@ export const data = [
     {
         id: 1,
         title: 'Добавить стили',
-        completed: false
+        completed: true
     },
     {
         id: 2,
         title: 'Добавить поиск по задачам.',
-        completed: false
+        completed: true
     },
     {
         id: 3,
@@ -22,11 +22,6 @@ export const data = [
     {
         id: 5,
         title: 'Деплой github pages.',
-        completed: false
-    },
-    {
-        id: 6,
-        title: 'подключить шрифты',
         completed: false
     },
 ]

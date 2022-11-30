@@ -32,35 +32,23 @@ function App() {
     setTasks(tasks.filter((task) => task.id !== id))
   }
 
-  const handleSearch = (search) => {
-    let filteredTasks = [...tasks];
-    filteredTasks = filteredTasks.filter(task => task.title.toLowerCase().includes(search.toLowerCase()));
-    setTasks(filteredTasks);
-    console.log(filteredTasks);
-  }
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => {
-    handleSearch(search);
-  }, [search]);
-
-
   return (
 
     <PageWrapper>
       <Title>Список дел</Title>
-      <Search
-        setTasks={setTasks}
-        search={search}
-        setSearch={setSearch}
-      />
-
       <Form
         inputValue={inputValue}
         setInputValue={setInputValue}
         taskAdd={taskAdd}
       />
+
+      <Search
+        setTasks={setTasks}
+        search={search}
+        setSearch={setSearch}
+      />
       <TaskList
+        search={search}
         taskRemove={taskRemove}
         setTasks={setTasks}
         tasks={tasks}

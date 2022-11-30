@@ -67,5 +67,8 @@ export const InputCheckBox = styled.input`
       &:checked ~ span {
         text-decoration: line-through;
     }
+`
 
+export const InputSearch = styled(Input)`
+    margin-right: 0;
 `

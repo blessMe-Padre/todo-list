@@ -5,7 +5,7 @@ import { ButtonDelete, ButtonEdit, ButtonSave } from '../buttons/Buttons';
 import { InputEdit, InputLabel, InputCheckBox } from '../input/Input';
 import { TaskItem, TaskWrapper, TaskListStyled, TaskWrapperLeft } from './styled';
 
-export default function TaskList({ tasks, setTasks, taskRemove }) {
+export default function TaskList({ tasks, setTasks, taskRemove, search }) {
     const [isEditMode, setEditMode] = useState();
     const [value, setValue] = useState('');
     const editTitleInputRef = useRef(null)
@@ -53,8 +53,10 @@ export default function TaskList({ tasks, setTasks, taskRemove }) {
             <TaskListStyled>
                 {tasks.length <= 0 && (<p>Список задач пуст</p>)}
 
-                {tasks.map((task) => {
-                    return (
+                {tasks
+                    .filter(task => task.title.toLowerCase().includes(search.toLowerCase()))
+                    // .sort((a, b) => a.completed - b.completed)
+                    .map((task) => (
                         <TaskItem key={task.id}>
                             <TaskWrapperLeft>
                                 <InputCheckBox
@@ -64,22 +66,17 @@ export default function TaskList({ tasks, setTasks, taskRemove }) {
                                     checked={task.completed}
                                     onChange={() => {
                                         toggleTaskCompleted(task.id);
-                                    }
-                                    }
-                                />
+                                    }} />
                                 <InputLabel htmlFor={task.id} />
 
                                 {isEditMode === task.id ? (
-                                    < InputEdit
+                                    <InputEdit
                                         type="text"
                                         ref={editTitleInputRef}
                                         value={value}
                                         onChange={(evt) => {
                                             setValue(evt.target.value);
-                                        }
-                                        }
-
-                                    />
+                                        }} />
                                 ) : (<span>{task.title}</span>)}
                             </TaskWrapperLeft>
                             <TaskWrapper>
@@ -89,30 +86,26 @@ export default function TaskList({ tasks, setTasks, taskRemove }) {
                                             taskEdited(task.id, value);
                                             setEditMode(false);
                                         }}
-                                        arial-label="Сохранить"
-                                    />
+                                        arial-label="Сохранить" />
                                 ) : (
                                     <ButtonEdit
                                         onClick={() => {
                                             setEditMode(task.id);
-                                            setValue(task.title)
+                                            setValue(task.title);
                                         }}
-                                        arial-label="Редактировать"
-                                    />
+                                        arial-label="Редактировать" />
                                 )}
 
                                 <ButtonDelete
                                     onClick={() => {
                                         if (window.confirm("Удалить задачу?")) {
-                                            taskRemove(task.id)
+                                            taskRemove(task.id);
                                         }
                                     }}
-                                    arial-label="Удалить"
-                                />
+                                    arial-label="Удалить" />
                             </TaskWrapper>
                         </TaskItem>
-                    )
-                })
+                    ))
                 }
             </TaskListStyled>
         </section >
