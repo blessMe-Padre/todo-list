@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const PageWrapper = styled.div`
-    max-width: 1024px;
+    max-width: 600px;
     margin: 0 auto;
     padding: 40px 15px;
 `

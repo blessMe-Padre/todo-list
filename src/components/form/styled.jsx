@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const FormStyled = styled.div`
+    position: relative;
     display: flex;
     align-items: center;
     max-width: 600px;

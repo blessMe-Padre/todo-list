@@ -1,10 +1,12 @@
 import React from 'react';
+import { data } from '../../data'
 
-import { ButtonSearch } from '../buttons/Buttons';
+import imgSearch from "../../img/search.svg"
+import { ButtonInputRemove } from '../buttons/Buttons';
 import { FormStyled } from '../form/styled';
 import { Input } from '../input/Input';
 
-export default function Search({ search, setSearch }) {
+export default function Search({ search, setSearch, setTasks }) {
 
     return (
         <FormStyled>
@@ -16,10 +18,14 @@ export default function Search({ search, setSearch }) {
                 }}
                 value={search}
             />
-            <ButtonSearch
-                type="submit"
-                arial-label="Поиск"
+            <ButtonInputRemove
+                onClick={() => {
+                    setSearch('');
+                    setTasks(data);
+                }}
+                arial-label="Очистить поиск"
             />
+            <img src={imgSearch} alt="Поиск" />
         </FormStyled>
     )
 }
