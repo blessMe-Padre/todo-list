@@ -2,7 +2,7 @@ import React from 'react';
 import { useState, useRef, useEffect } from 'react';
 
 import { ButtonDelete, ButtonEdit, ButtonSave } from '../buttons/Buttons';
-import { InputEdit, InputLabel, InputCheckBox, Label, Input2 } from '../input/Input';
+import { InputEdit, InputLabel, InputCheckBox } from '../input/Input';
 import { TaskItem, TaskWrapper, TaskListStyled, TaskWrapperLeft } from './styled';
 
 export default function TaskList({ tasks, setTasks, taskRemove }) {
@@ -57,7 +57,6 @@ export default function TaskList({ tasks, setTasks, taskRemove }) {
                     return (
                         <TaskItem key={task.id}>
                             <TaskWrapperLeft>
-
                                 <InputCheckBox
                                     key={task.id}
                                     id={task.id}

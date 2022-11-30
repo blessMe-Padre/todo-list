@@ -10,5 +10,6 @@ export const Title = styled.h1`
     margin: 0 0 30px 0;
     font-weight: 600;
     text-align: center;
-
+    max-width: 600px;
+    text-align: left;
 `

@@ -29,19 +29,4 @@ export const data = [
         title: 'подключить шрифты',
         completed: false
     },
-    {
-        id: 7,
-        title: 'focus в поле редактирование',
-        completed: true
-    },
-    {
-        id: 8,
-        title: 'ввод задачи по enter',
-        completed: false
-    },
-    {
-        id: 9,
-        title: 'hover focus',
-        completed: false
-    },
 ]

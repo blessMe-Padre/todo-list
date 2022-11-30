@@ -43,6 +43,7 @@ export const InputLabel = styled.label`
         border: 1px solid var(--color-aliceblue);
     }
 `
+
 export const InputCheckBox = styled.input`
      position: absolute;
      clip: rect(0 0 0 0);
@@ -62,4 +63,9 @@ export const InputCheckBox = styled.input`
         background-repeat: no-repeat;
         background-position: center;
       }
+
+      &:checked ~ span {
+        text-decoration: line-through;
+    }
+
 `

@@ -1,15 +1,17 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { data } from './data'
 import Form from './components/form/Form';
 import TaskList from './components/task-list/TaskList';
 import { PageWrapper, Title } from './components/page-wrapper/Page-wrapper';
+import Search from './components/search/Search';
 
 
 
 function App() {
   const [tasks, setTasks] = useState(data);
   const [inputValue, setInputValue] = useState('');
+  const [search, setSearch] = useState('');
 
   const generateId = () => (Math.random().toString(16).slice(2) + new Date().getTime().toString(36));
 
@@ -30,10 +32,22 @@ function App() {
     setTasks(tasks.filter((task) => task.id !== id))
   }
 
+  const handleSearch = (search) => {
+    let data = [...tasks];
+    data = data.filter(task => task.title.toLowerCase().includes(search.toLowerCase()));
+    setTasks(data);
+  }
+
+  useEffect(() => { handleSearch(search) }, [search]);
+
   return (
 
     <PageWrapper>
       <Title>Список дел</Title>
+      <Search
+        search={search}
+        setSearch={setSearch}
+      />
 
       <Form
         inputValue={inputValue}

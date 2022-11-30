@@ -3,6 +3,7 @@ import imgDelete from "../../img/trash.svg"
 import imgEdit from "../../img/edit.svg"
 import imgSave from "../../img/check.svg"
 import imgAdd from "../../img/plus.svg"
+import imgSearch from "../../img/search.svg"
 
 export const Button = styled.button`
     border: none;
@@ -28,4 +29,8 @@ export const ButtonSave = styled(Button)`
 
 export const ButtonAdd = styled(Button)`
     background-image: url(${imgAdd});
+`
+
+export const ButtonSearch = styled(Button)`
+    background-image: url(${imgSearch});
 `

@@ -19,6 +19,12 @@ export default function Form({ inputValue, setInputValue, taskAdd }) {
                 onChange={(evt) => {
                     setInputValue(evt.target.value);
                 }}
+                onKeyDown={(evt) => {
+                    if (evt.key === 'Enter') {
+                        taskAdd(evt.target.value);
+                        setInputValue('');
+                    }
+                }}
             />
             <ButtonAdd
                 type="submit"
