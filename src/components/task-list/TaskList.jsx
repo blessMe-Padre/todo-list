@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from 'react';
 
 import { ButtonDelete, ButtonEdit, ButtonSave } from '../buttons/Buttons';
 import { InputEdit, InputLabel, InputCheckBox } from '../input/Input';
-import { TaskItem, TaskWrapper, TaskListStyled, TaskWrapperLeft } from './styled';
+import { TaskItem, TaskWrapper, TaskListStyled, TaskWrapperLeft, TaskTime } from './styled';
 
 export default function TaskList({ tasks, setTasks, taskRemove, search }) {
     const [isEditMode, setEditMode] = useState();
@@ -15,7 +15,7 @@ export default function TaskList({ tasks, setTasks, taskRemove, search }) {
             editTitleInputRef.current.focus();
         }
     }, [isEditMode])
-
+    console.log(tasks);
 
     const toggleTaskCompleted = (id) => {
         setTasks(
@@ -54,11 +54,12 @@ export default function TaskList({ tasks, setTasks, taskRemove, search }) {
                 {tasks.length <= 0 && (<p>Список задач пуст</p>)}
 
                 {tasks
-                    .filter(task => task.title.toLowerCase().includes(search.toLowerCase()))
+                    // .filter(task => task.title.toLowerCase().includes(search.toLowerCase()))
                     // .sort((a, b) => a.completed - b.completed)
                     .map((task) => (
                         <TaskItem key={task.id}>
                             <TaskWrapperLeft>
+                                <TaskTime>{task.time}</TaskTime>
                                 <InputCheckBox
                                     key={task.id}
                                     id={task.id}
