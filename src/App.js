@@ -8,9 +8,6 @@ import Form from './components/form/Form';
 import TaskList from './components/task-list/TaskList';
 import { PageWrapper, Title } from './components/page-wrapper/Page-wrapper';
 
-
-console.log(db);
-
 function App() {
   const [tasks, setTasks] = useState([]);
   const [inputValue, setInputValue] = useState('');

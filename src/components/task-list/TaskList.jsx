@@ -36,31 +36,23 @@ export default function TaskList({ tasks, setTasks, taskRemove, search }) {
 
 
 
-    const onEditTaskTitle = async (task, inputValue) => {
-        const item = doc(db, "Tasks", task);
-        await setDoc(item, {
-            ...task,
+    const onEditTaskTitle = async (id, inputValue) => {
+        const item = doc(db, "Tasks", id);
+        await updateDoc(item, {
             title: inputValue,
-            id: task.id
         });
     }
 
     const taskEdited = (id, inputValue) => {
         setTasks(
-            tasks.map(
-                task => {
-                    if (task.id !== id) return task;
-
-                    return {
-                        ...task,
-                        title: inputValue,
-                        id: task.id
-                    }
-                }
+            tasks.map(task => {
+                if (task.id !== id) return task;
+                return onEditTaskTitle(id, inputValue)
+            }
             )
         );
     }
-
+    console.log(tasks);
     return (
         <section>
             <TaskListStyled>
