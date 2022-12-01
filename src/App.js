@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, getDocs, doc, setDoc, addDoc, query, where } from 'firebase/firestore';
+import { getFirestore, collection, getDocs, doc, setDoc, addDoc, query, where, deleteDoc } from 'firebase/firestore';
 
 import Form from './components/form/Form';
 import TaskList from './components/task-list/TaskList';
@@ -32,17 +32,10 @@ function App() {
   const time = new Date().toLocaleString();
 
 
-  const getMultipleDocument = async function () {
-    const q = query(collection(db, "Tasks"), where("Tasks", "==", true));
-
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
-      // doc.data() is never undefined for query doc snapshots
-      console.log(doc.id, " => ", doc.data());
-    });
+  const getDeletedDocument = async function (id) {
+    const querySnapshot = await deleteDoc(doc(db, "Tasks", id));
+    return querySnapshot;
   }
-
-
 
   const getAllDocument = async function () {
     const querySnapshot = await getDocs(collection(db, "Tasks"));
@@ -50,6 +43,7 @@ function App() {
 
     return taskList;
   }
+
   useEffect(() => {
     getAllDocument().then(setTasks);
   }, [])
@@ -64,14 +58,12 @@ function App() {
         completed: false,
         time: time
       });
-      console.log("Document written with ID: ", task.id);
     }
     getAllDocument().then(setTasks);
   }
 
-
   const taskRemove = (id) => {
-    setTasks(tasks.filter((task) => task.id !== id))
+    getDeletedDocument(id).then(setTasks(tasks.filter((task) => task.id !== id)));
   }
 
   return (

@@ -98,9 +98,9 @@ export default function TaskList({ tasks, setTasks, taskRemove, search }) {
 
                                 <ButtonDelete
                                     onClick={() => {
-                                        if (window.confirm("Удалить задачу?")) {
-                                            taskRemove(task.id);
-                                        }
+                                        // if (window.confirm("Удалить задачу?")) {
+                                        taskRemove(task.id);
+                                        // }
                                     }}
                                     arial-label="Удалить" />
                             </TaskWrapper>
