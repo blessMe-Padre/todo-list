@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, getDocs, doc, setDoc, addDoc } from 'firebase/firestore';
-
+import { getFirestore, collection, getDocs, doc, setDoc, addDoc, query, where } from 'firebase/firestore';
 
 import Form from './components/form/Form';
 import TaskList from './components/task-list/TaskList';
@@ -29,41 +28,45 @@ function App() {
   const [search, setSearch] = useState('');
 
 
-  const generateId = () => (Math.random().toString(16).slice(2) + new Date().getTime().toString(36));
+  // const generateId = () => (Math.random().toString(16).slice(2) + new Date().getTime().toString(36));
   const time = new Date().toLocaleString();
 
+
+  const getMultipleDocument = async function () {
+    const q = query(collection(db, "Tasks"), where("Tasks", "==", true));
+
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      // doc.data() is never undefined for query doc snapshots
+      console.log(doc.id, " => ", doc.data());
+    });
+  }
+
+
+
+  const getAllDocument = async function () {
+    const querySnapshot = await getDocs(collection(db, "Tasks"));
+    const taskList = querySnapshot.docs.map(doc => doc.data());
+
+    return taskList;
+  }
   useEffect(() => {
-    async function getTasks(db) {
-      const tasksCol = collection(db, 'Tasks');
-      const taskSnapshot = await getDocs(tasksCol);
-      const taskList = taskSnapshot.docs.map(doc => doc.data());
-      return setTasks(taskList);
-    }
-    getTasks(db);
+    getAllDocument().then(setTasks);
   }, [])
+
 
   const taskAdd = async (title) => {
     if (inputValue) {
-      //сначала добавляет таску в state...
-      setTasks([
-        {
-          id: generateId(),
-          title,
-          completed: false,
-          time: time
-        },
-        ...tasks,
-      ]);
-      //... и уже потом отправляет в БД
-
-      const newTask = doc(collection(db, "Tasks"));
-      await setDoc(newTask, {
-        id: generateId(),
+      const task = doc(collection(db, "Tasks"));
+      await setDoc(task, {
+        id: task.id,
         title: title,
         completed: false,
         time: time
       });
+      console.log("Document written with ID: ", task.id);
     }
+    getAllDocument().then(setTasks);
   }
 
 
