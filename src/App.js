@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, getDocs, doc, setDoc, addDoc, query, where, deleteDoc } from 'firebase/firestore';
+import { getFirestore, collection, getDocs, doc, setDoc, deleteDoc, updateDoc, serverTimestamp } from 'firebase/firestore';
 
 import Form from './components/form/Form';
 import TaskList from './components/task-list/TaskList';
@@ -27,10 +27,11 @@ function App() {
   const [inputValue, setInputValue] = useState('');
   const [search, setSearch] = useState('');
 
-
-  // const generateId = () => (Math.random().toString(16).slice(2) + new Date().getTime().toString(36));
   const time = new Date().toLocaleString();
 
+  useEffect(() => {
+    getAllDocument().then(setTasks);
+  }, [])
 
   const getDeletedDocument = async function (id) {
     const querySnapshot = await deleteDoc(doc(db, "Tasks", id));
@@ -44,11 +45,6 @@ function App() {
     return taskList;
   }
 
-  useEffect(() => {
-    getAllDocument().then(setTasks);
-  }, [])
-
-
   const taskAdd = async (title) => {
     if (inputValue) {
       const task = doc(collection(db, "Tasks"));
@@ -57,6 +53,10 @@ function App() {
         title: title,
         completed: false,
         time: time
+      });
+
+      const updateTimestamp = await updateDoc(task, {
+        timestamp: serverTimestamp()
       });
     }
     getAllDocument().then(setTasks);
@@ -76,13 +76,13 @@ function App() {
         taskAdd={taskAdd}
       />
 
-      {/* <Search
+      <Search
         setTasks={setTasks}
         search={search}
         setSearch={setSearch}
-      /> */}
+      />
       <TaskList
-        // search={search}
+        search={search}
         taskRemove={taskRemove}
         setTasks={setTasks}
         tasks={tasks}

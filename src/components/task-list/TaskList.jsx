@@ -53,8 +53,8 @@ export default function TaskList({ tasks, setTasks, taskRemove, search }) {
                 {tasks.length <= 0 && (<p>Список задач пуст</p>)}
 
                 {tasks
-                    // .filter(task => task.title.toLowerCase().includes(search.toLowerCase()))
-                    // .sort((a, b) => a.completed - b.completed)
+                    .filter(task => task.title.toLowerCase().includes(search.toLowerCase()))
+                    .sort((a, b) => a - b)
                     .map((task) => (
                         <TaskItem key={task.id}>
                             <TaskWrapperLeft>

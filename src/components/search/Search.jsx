@@ -1,11 +1,10 @@
 import React from 'react';
-import { data } from '../../data'
 
 import { ButtonInputRemove } from '../buttons/Buttons';
 import { FormStyledSearch } from '../form/styled';
 import { InputSearch } from '../input/Input';
 
-export default function Search({ search, setSearch, setTasks }) {
+export default function Search({ search, setSearch }) {
 
     return (
         <FormStyledSearch>
@@ -20,7 +19,6 @@ export default function Search({ search, setSearch, setTasks }) {
             <ButtonInputRemove
                 onClick={() => {
                     setSearch('');
-                    setTasks(data);
                 }}
                 arial-label="Очистить поиск"
             />
