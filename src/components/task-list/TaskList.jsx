@@ -1,6 +1,9 @@
 import React from 'react';
 import { useState, useRef, useEffect } from 'react';
 
+import { db } from '../../firebaseConfig';
+import { doc, setDoc, updateDoc } from "firebase/firestore";
+
 import { ButtonDelete, ButtonEdit, ButtonSave } from '../buttons/Buttons';
 import { InputEdit, InputLabel, InputCheckBox } from '../input/Input';
 import { TaskItem, TaskWrapper, TaskListStyled, TaskWrapperLeft, TaskTime } from './styled';
@@ -8,8 +11,8 @@ import { TaskItem, TaskWrapper, TaskListStyled, TaskWrapperLeft, TaskTime } from
 export default function TaskList({ tasks, setTasks, taskRemove, search }) {
     const [isEditMode, setEditMode] = useState();
     const [value, setValue] = useState('');
-    const editTitleInputRef = useRef(null)
 
+    const editTitleInputRef = useRef(null)
     useEffect(() => {
         if (isEditMode && editTitleInputRef) {
             editTitleInputRef.current.focus();
@@ -29,6 +32,17 @@ export default function TaskList({ tasks, setTasks, taskRemove, search }) {
                 }
             )
         );
+    }
+
+
+
+    const onEditTaskTitle = async (task, inputValue) => {
+        const item = doc(db, "Tasks", task);
+        await setDoc(item, {
+            ...task,
+            title: inputValue,
+            id: task.id
+        });
     }
 
     const taskEdited = (id, inputValue) => {
