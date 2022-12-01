@@ -15,7 +15,6 @@ export default function TaskList({ tasks, setTasks, taskRemove, search }) {
             editTitleInputRef.current.focus();
         }
     }, [isEditMode])
-    console.log(tasks);
 
     const toggleTaskCompleted = (id) => {
         setTasks(

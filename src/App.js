@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, getDocs, doc, setDoc } from 'firebase/firestore';
+import { getFirestore, collection, getDocs, doc, setDoc, addDoc } from 'firebase/firestore';
 
 
 import Form from './components/form/Form';
@@ -42,8 +42,6 @@ function App() {
     getTasks(db);
   }, [])
 
-  console.log(tasks);
-
   const taskAdd = async (title) => {
     if (inputValue) {
       //сначала добавляет таску в state...
@@ -57,7 +55,9 @@ function App() {
         ...tasks,
       ]);
       //... и уже потом отправляет в БД
-      await setDoc(doc(db, "Tasks", generateId()), {
+
+      const newTask = doc(collection(db, "Tasks"));
+      await setDoc(newTask, {
         id: generateId(),
         title: title,
         completed: false,
@@ -88,7 +88,7 @@ function App() {
       /> */}
       <TaskList
         // search={search}
-        // taskRemove={taskRemove}
+        taskRemove={taskRemove}
         setTasks={setTasks}
         tasks={tasks}
       />
