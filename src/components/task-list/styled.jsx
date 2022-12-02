@@ -8,32 +8,36 @@ export const TaskListStyled = styled.ul`
 export const TaskItem = styled.li`
     position: relative;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
     max-width: 600px;
     font-size: 18px;
     line-height: 20px;
-    padding-bottom: 5px;
+    border-bottom: 2px solid var(--color-aliceblue);
+    padding-bottom: 15px;
     margin-bottom: 25px;
 `
 
 export const TaskTime = styled.p`
     position: absolute;
-    top: -15px;
-    left: 47px;
+    bottom: 0;
+    left: 35px;
     margin: 0;
-    padding: 0;
     font-size: 10px;
     opacity: 0.8;
 `
 
 export const TaskWrapperLeft = styled.div`
     display: flex;
-    align-items: center;
+    align-items: flex-start;
+    padding-top: 6px;
     width: 80%;
 `
 
 export const TaskWrapper = styled.div`
     display: flex;
     align-items: center;
+`
+export const TaskSpan = styled.span`
+    padding-bottom: 10px;
 `

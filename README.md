@@ -14,6 +14,8 @@
 
 4.) Поиск по задачам.
 
+5.) Подключена БД Cloud Firestore
+
 
 ## Available Scripts
 

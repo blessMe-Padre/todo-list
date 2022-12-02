@@ -38,13 +38,11 @@ function App() {
         id: task.id,
         title: title,
         completed: false,
-        time: time
-      });
-
-      const updateTimestamp = await updateDoc(task, {
+        time: time,
         timestamp: serverTimestamp()
       });
     }
+
     getAllDocument().then(setTasks);
   }
 

@@ -28,18 +28,19 @@ export const InputEdit = styled.input`
 export const InputLabel = styled.label`
   margin-right: 15px;
   cursor: pointer;
-  height: 32px;
-  width: 32px;
+  height: 20px;
+  width: 20px;
   position: relative;
   box-sizing: border-box;
+  flex: 0 0 auto;
 
     &::before {
         position: absolute;
         content: " ";
         top: 0;
         left: 0;
-        height: 32px;
-        width: 32px;
+        height: 20px;
+        width: 20px;
         border: 1px solid var(--color-aliceblue);
     }
 `
@@ -55,11 +56,11 @@ export const InputCheckBox = styled.input`
         position: absolute;
         content: " ";
         top: 2px;
-        left: 2px;
-        height: 32px;
-        width: 32px;
+        left: 1px;
+        height: 20px;
+        width: 20px;
         background-image: url(${imgSave});
-        background-size: 30px 30px;
+        background-size: 20px 20px;
         background-repeat: no-repeat;
         background-position: center;
       }

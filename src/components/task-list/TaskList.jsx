@@ -2,11 +2,11 @@ import React from 'react';
 import { useState, useRef, useEffect } from 'react';
 
 import { db } from '../../firebaseConfig';
-import { doc, setDoc, updateDoc } from "firebase/firestore";
+import { doc, updateDoc } from "firebase/firestore";
 
 import { ButtonDelete, ButtonEdit, ButtonSave } from '../buttons/Buttons';
 import { InputEdit, InputLabel, InputCheckBox } from '../input/Input';
-import { TaskItem, TaskWrapper, TaskListStyled, TaskWrapperLeft, TaskTime } from './styled';
+import { TaskItem, TaskWrapper, TaskListStyled, TaskWrapperLeft, TaskTime, TaskSpan } from './styled';
 
 export default function TaskList({ tasks, setTasks, taskRemove, search, getAllDocument }) {
     const [isEditMode, setEditMode] = useState();
@@ -85,7 +85,7 @@ export default function TaskList({ tasks, setTasks, taskRemove, search, getAllDo
                                         onChange={(evt) => {
                                             setValue(evt.target.value);
                                         }} />
-                                ) : (<span>{task.title}</span>)}
+                                ) : (<TaskSpan>{task.title}</TaskSpan>)}
                             </TaskWrapperLeft>
                             <TaskWrapper>
                                 {isEditMode === task.id ? (
