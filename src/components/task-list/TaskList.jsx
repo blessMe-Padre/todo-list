@@ -8,7 +8,7 @@ import { ButtonDelete, ButtonEdit, ButtonSave } from '../buttons/Buttons';
 import { InputEdit, InputLabel, InputCheckBox } from '../input/Input';
 import { TaskItem, TaskWrapper, TaskListStyled, TaskWrapperLeft, TaskTime } from './styled';
 
-export default function TaskList({ tasks, setTasks, taskRemove, search }) {
+export default function TaskList({ tasks, setTasks, taskRemove, search, getAllDocument }) {
     const [isEditMode, setEditMode] = useState();
     const [value, setValue] = useState('');
 
@@ -19,22 +19,24 @@ export default function TaskList({ tasks, setTasks, taskRemove, search }) {
         }
     }, [isEditMode])
 
-    const toggleTaskCompleted = (id) => {
-        setTasks(
-            tasks.map(
-                task => {
-                    if (task.id !== id) return task;
 
-                    return {
-                        ...task,
-                        completed: !task.completed,
-                    }
-                }
-            )
-        );
+    const onEditTaskToggle = async (id, task) => {
+        const item = doc(db, "Tasks", id);
+        await updateDoc(item, {
+            completed: !task.completed,
+        });
     }
 
-
+    const toggleTaskCompleted = (id) => {
+        tasks.map(
+            task => {
+                if (task.id !== id) return task;
+                onEditTaskToggle(id, task);
+                getAllDocument().then(setTasks);
+                return setTasks(tasks)
+            }
+        )
+    }
 
     const onEditTaskTitle = async (id, inputValue) => {
         const item = doc(db, "Tasks", id);
@@ -44,15 +46,15 @@ export default function TaskList({ tasks, setTasks, taskRemove, search }) {
     }
 
     const taskEdited = (id, inputValue) => {
-        setTasks(
-            tasks.map(task => {
-                if (task.id !== id) return task;
-                return onEditTaskTitle(id, inputValue)
-            }
-            )
+        tasks.map(task => {
+            if (task.id !== id) return task;
+            onEditTaskTitle(id, inputValue);
+            getAllDocument().then(setTasks);
+            return setTasks(tasks)
+        }
         );
     }
-    console.log(tasks);
+
     return (
         <section>
             <TaskListStyled>

@@ -72,6 +72,7 @@ function App() {
         taskRemove={taskRemove}
         setTasks={setTasks}
         tasks={tasks}
+        getAllDocument={getAllDocument}
       />
     </PageWrapper>
   );
