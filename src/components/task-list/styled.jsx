@@ -9,6 +9,7 @@ export const TaskItem = styled.li`
     display: flex;
     flex-direction: column;
     border-bottom: 2px solid var(--color-aliceblue);
+    margin-bottom: 40px;
 `
 export const TaskWrapper = styled.div`
     position: relative;

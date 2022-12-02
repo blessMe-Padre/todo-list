@@ -4,14 +4,14 @@ import { useState, useRef, useEffect } from 'react';
 import { db } from '../../firebaseConfig';
 import { doc, updateDoc } from "firebase/firestore";
 
-import { ButtonDelete, ButtonEdit, ButtonSave, ButtonSpoiler } from '../buttons/Buttons';
+import { ButtonDelete, ButtonEdit, ButtonSave, ButtonSpoilerClose, ButtonSpoilerOpen } from '../buttons/Buttons';
 import { InputEdit, InputLabel, InputCheckBox } from '../input/Input';
 import { TaskItem, TaskWrapper, TaskButtonsWrapper, TaskListStyled, TaskText, TaskTime, TaskSpan, TaskSpoiler } from './styled';
 
 export default function TaskList({ tasks, setTasks, taskRemove, search, getAllDocument }) {
     const [isEditMode, setEditMode] = useState();
     const [value, setValue] = useState('');
-    const [isOpenSpoiler, setOpenSpoiler] = useState(false);
+    const [isOpenSpoiler, setOpenSpoiler] = useState();
 
 
     const editTitleInputRef = useRef(null)
@@ -28,13 +28,6 @@ export default function TaskList({ tasks, setTasks, taskRemove, search, getAllDo
             completed: !task.completed,
         });
     }
-
-
-    const toggleSpoiler = (id) => {
-        setOpenSpoiler(!isOpenSpoiler);
-        console.log(id);
-    }
-
 
     const toggleTaskCompleted = (id) => {
         tasks.map(
@@ -123,16 +116,26 @@ export default function TaskList({ tasks, setTasks, taskRemove, search, getAllDo
                                         }}
                                         arial-label="Удалить" />
 
-                                    <ButtonSpoiler
-                                        isOpenSpoiler={isOpenSpoiler}
-                                        onClick={() => { toggleSpoiler(task.id) }}
-                                        arial-label="прикрепить файл" />
 
+                                    {isOpenSpoiler === task.id ? (
+                                        <ButtonSpoilerClose
+                                            onClick={() => { setOpenSpoiler(false) }}
+                                            arial-label="закрыть" />
+                                    ) : (
+
+                                        <ButtonSpoilerOpen
+                                            onClick={() => { setOpenSpoiler(task.id) }}
+                                            arial-label="прикрепить файл" />
+                                    )}
                                 </TaskButtonsWrapper>
                             </TaskWrapper>
-                            <TaskSpoiler
-                                isOpenSpoiler={isOpenSpoiler}
-                            />
+
+                            {isOpenSpoiler === task.id ? (
+                                <TaskSpoiler
+                                    isOpenSpoiler={isOpenSpoiler}
+                                />
+                            ) : ('')}
+
                         </TaskItem>
                     ))
                 }
