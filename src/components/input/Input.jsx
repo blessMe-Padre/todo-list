@@ -11,6 +11,11 @@ export const Input = styled.input`
     min-height: 32px;
     font-size: 16px;
     color:  var(--color-shark);
+    border-radius: 3px;
+
+    &:hover {
+        box-shadow: 0 0 5px #336CFF;
+    }
 `
 
 export const InputEdit = styled.input`
@@ -37,7 +42,7 @@ export const InputLabel = styled.label`
     &::before {
         position: absolute;
         content: " ";
-        top: 0;
+        top: 3px;
         left: 0;
         height: 20px;
         width: 20px;
@@ -55,7 +60,7 @@ export const InputCheckBox = styled.input`
     &:checked + ${InputLabel}::after{
         position: absolute;
         content: " ";
-        top: 2px;
+        top: 3px;
         left: 1px;
         height: 20px;
         width: 20px;

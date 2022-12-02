@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 import { db } from './firebaseConfig';
-import { collection, getDocs, doc, setDoc, deleteDoc, updateDoc, serverTimestamp } from 'firebase/firestore';
+import { collection, getDocs, doc, setDoc, deleteDoc, serverTimestamp } from 'firebase/firestore';
 
 import Search from './components/search/Search';
 import Form from './components/form/Form';
@@ -12,7 +12,6 @@ function App() {
   const [tasks, setTasks] = useState([]);
   const [inputValue, setInputValue] = useState('');
   const [search, setSearch] = useState('');
-
   const time = new Date().toLocaleString();
 
   useEffect(() => {

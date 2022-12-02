@@ -4,6 +4,8 @@ import imgEdit from "../../img/edit.svg"
 import imgSave from "../../img/check.svg"
 import imgAdd from "../../img/plus.svg"
 import imgRemove from "../../img/plus-black.svg"
+import imgOpen from "../../img/open.svg"
+import imgClose from "../../img/close.svg"
 
 export const Button = styled.button`
     border: none;
@@ -37,4 +39,16 @@ export const ButtonInputRemove = styled(Button)`
     right: 15px;
     background-image: url(${imgRemove});
     transform: rotate(45deg);
+`
+
+export const ButtonSpoiler = styled(Button)`
+    position: absolute;
+    bottom: -20px;
+    right: 0px;
+    background-image: url(${(p) => (
+        p.isOpenSpoiler ? `${imgAdd}` : `${imgOpen}`
+    )});
+
+    transform: ${(p) => (
+        p.isOpenSpoiler ? "rotate(45deg)" : " ")};
 `

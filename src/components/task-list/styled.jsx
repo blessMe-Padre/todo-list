@@ -6,6 +6,11 @@ export const TaskListStyled = styled.ul`
 `
 
 export const TaskItem = styled.li`
+    display: flex;
+    flex-direction: column;
+    border-bottom: 2px solid var(--color-aliceblue);
+`
+export const TaskWrapper = styled.div`
     position: relative;
     display: flex;
     align-items: flex-start;
@@ -13,31 +18,37 @@ export const TaskItem = styled.li`
     max-width: 600px;
     font-size: 18px;
     line-height: 20px;
-    border-bottom: 2px solid var(--color-aliceblue);
     padding-bottom: 15px;
     margin-bottom: 25px;
 `
-
 export const TaskTime = styled.p`
     position: absolute;
-    bottom: 0;
+    bottom: -25px;
     left: 35px;
     margin: 0;
     font-size: 10px;
     opacity: 0.8;
 `
 
-export const TaskWrapperLeft = styled.div`
+export const TaskText = styled.div`
     display: flex;
     align-items: flex-start;
     padding-top: 6px;
     width: 80%;
 `
 
-export const TaskWrapper = styled.div`
+export const TaskButtonsWrapper = styled.div`
     display: flex;
     align-items: center;
+    width: 64px;
 `
 export const TaskSpan = styled.span`
     padding-bottom: 10px;
+`
+
+export const TaskSpoiler = styled.div`
+    transition: min-height 0.3s ease-in ;
+    background-color:  var(--color-aliceblue);
+    min-height: ${(p) => (
+        p.isOpenSpoiler ? "150px" : "0")};
 `

@@ -4,13 +4,15 @@ import { useState, useRef, useEffect } from 'react';
 import { db } from '../../firebaseConfig';
 import { doc, updateDoc } from "firebase/firestore";
 
-import { ButtonDelete, ButtonEdit, ButtonSave } from '../buttons/Buttons';
+import { ButtonDelete, ButtonEdit, ButtonSave, ButtonSpoiler } from '../buttons/Buttons';
 import { InputEdit, InputLabel, InputCheckBox } from '../input/Input';
-import { TaskItem, TaskWrapper, TaskListStyled, TaskWrapperLeft, TaskTime, TaskSpan } from './styled';
+import { TaskItem, TaskWrapper, TaskButtonsWrapper, TaskListStyled, TaskText, TaskTime, TaskSpan, TaskSpoiler } from './styled';
 
 export default function TaskList({ tasks, setTasks, taskRemove, search, getAllDocument }) {
     const [isEditMode, setEditMode] = useState();
     const [value, setValue] = useState('');
+    const [isOpenSpoiler, setOpenSpoiler] = useState(false);
+
 
     const editTitleInputRef = useRef(null)
     useEffect(() => {
@@ -26,6 +28,13 @@ export default function TaskList({ tasks, setTasks, taskRemove, search, getAllDo
             completed: !task.completed,
         });
     }
+
+
+    const toggleSpoiler = (id) => {
+        setOpenSpoiler(!isOpenSpoiler);
+        console.log(id);
+    }
+
 
     const toggleTaskCompleted = (id) => {
         tasks.map(
@@ -65,53 +74,65 @@ export default function TaskList({ tasks, setTasks, taskRemove, search, getAllDo
                     .sort((a, b) => a - b)
                     .map((task) => (
                         <TaskItem key={task.id}>
-                            <TaskWrapperLeft>
-                                <TaskTime>{task.time}</TaskTime>
-                                <InputCheckBox
-                                    key={task.id}
-                                    id={task.id}
-                                    type="checkbox"
-                                    checked={task.completed}
-                                    onChange={() => {
-                                        toggleTaskCompleted(task.id);
-                                    }} />
-                                <InputLabel htmlFor={task.id} />
-
-                                {isEditMode === task.id ? (
-                                    <InputEdit
-                                        type="text"
-                                        ref={editTitleInputRef}
-                                        value={value}
-                                        onChange={(evt) => {
-                                            setValue(evt.target.value);
-                                        }} />
-                                ) : (<TaskSpan>{task.title}</TaskSpan>)}
-                            </TaskWrapperLeft>
                             <TaskWrapper>
-                                {isEditMode === task.id ? (
-                                    <ButtonSave
-                                        onClick={() => {
-                                            taskEdited(task.id, value);
-                                            setEditMode(false);
-                                        }}
-                                        arial-label="Сохранить" />
-                                ) : (
-                                    <ButtonEdit
-                                        onClick={() => {
-                                            setEditMode(task.id);
-                                            setValue(task.title);
-                                        }}
-                                        arial-label="Редактировать" />
-                                )}
+                                <TaskText>
+                                    <TaskTime>{task.time}</TaskTime>
+                                    <InputCheckBox
+                                        key={task.id}
+                                        id={task.id}
+                                        type="checkbox"
+                                        checked={task.completed}
+                                        onChange={() => {
+                                            toggleTaskCompleted(task.id);
+                                        }} />
+                                    <InputLabel htmlFor={task.id} />
 
-                                <ButtonDelete
-                                    onClick={() => {
-                                        // if (window.confirm("Удалить задачу?")) {
-                                        taskRemove(task.id);
-                                        // }
-                                    }}
-                                    arial-label="Удалить" />
+                                    {isEditMode === task.id ? (
+                                        <InputEdit
+                                            type="text"
+                                            ref={editTitleInputRef}
+                                            value={value}
+                                            onChange={(evt) => {
+                                                setValue(evt.target.value);
+                                            }} />
+                                    ) : (<TaskSpan>{task.title}</TaskSpan>)}
+                                </TaskText>
+
+                                <TaskButtonsWrapper>
+                                    {isEditMode === task.id ? (
+                                        <ButtonSave
+                                            onClick={() => {
+                                                taskEdited(task.id, value);
+                                                setEditMode(false);
+                                            }}
+                                            arial-label="Сохранить" />
+                                    ) : (
+                                        <ButtonEdit
+                                            onClick={() => {
+                                                setEditMode(task.id);
+                                                setValue(task.title);
+                                            }}
+                                            arial-label="Редактировать" />
+                                    )}
+
+                                    <ButtonDelete
+                                        onClick={() => {
+                                            if (window.confirm("Удалить задачу?")) {
+                                                taskRemove(task.id);
+                                            }
+                                        }}
+                                        arial-label="Удалить" />
+
+                                    <ButtonSpoiler
+                                        isOpenSpoiler={isOpenSpoiler}
+                                        onClick={() => { toggleSpoiler(task.id) }}
+                                        arial-label="прикрепить файл" />
+
+                                </TaskButtonsWrapper>
                             </TaskWrapper>
+                            <TaskSpoiler
+                                isOpenSpoiler={isOpenSpoiler}
+                            />
                         </TaskItem>
                     ))
                 }
