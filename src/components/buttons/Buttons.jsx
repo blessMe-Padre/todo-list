@@ -43,14 +43,14 @@ export const ButtonInputRemove = styled(Button)`
 
 export const ButtonSpoilerOpen = styled(Button)`
     position: absolute;
-    bottom: -20px;
+    bottom: 10px;
     right: 0px;
     background-image: url(${imgOpen});
 `
 
 export const ButtonSpoilerClose = styled(Button)`
     position: absolute;
-    bottom: -20px;
+    bottom: 10px;
     right: 0px;
     background-image: url(${imgAdd});
     transform: rotate(45deg);

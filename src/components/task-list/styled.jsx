@@ -19,13 +19,12 @@ export const TaskWrapper = styled.div`
     max-width: 600px;
     font-size: 18px;
     line-height: 20px;
-    padding-bottom: 15px;
-    margin-bottom: 25px;
+    padding-bottom: 40px;
 `
 export const TaskTime = styled.p`
     position: absolute;
-    bottom: -25px;
-    left: 35px;
+    bottom: 5px;
+    left: 36px;
     margin: 0;
     font-size: 10px;
     opacity: 0.8;
