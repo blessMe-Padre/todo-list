@@ -4,10 +4,10 @@ import { useState, useEffect } from 'react';
 import { storage } from '../../firebaseConfig';
 import { ref, uploadBytes, listAll, getDownloadURL } from 'firebase/storage';
 
-import { SpoilerWrapper } from "./styled"
+import { SpoilerWrapper, SpoilerInput, Label, ImgList, ImgItem, Img } from "./styled"
 
 export default function Spoiler({ isOpenSpoiler, setOpenSpoiler, id, deleteImages }) {
-    const [imageUpload, setImageUpload] = useState(null);
+    const [imageUpload, setImageUpload] = useState();
     const [imageList, setImageList] = useState([]);
 
     // получает ссылку на список файлов из БД
@@ -41,12 +41,21 @@ export default function Spoiler({ isOpenSpoiler, setOpenSpoiler, id, deleteImage
         getImagesList();
     }, [])
 
+
     return (
         <SpoilerWrapper isOpenSpoiler={isOpenSpoiler} >
-            <input
-                type="file"
-                onChange={(evt) => { setImageUpload(evt.target.files[0]) }}
-            />
+            <Label>
+                <SpoilerInput
+                    type="file"
+                    accept='image/jpeg, image/png'
+                    onChange={(evt) => {
+                        setImageUpload(evt.target.files[0]);
+                    }}
+                />
+                <span>{imageUpload ? `имя файла ${imageUpload.name}` : 'click to upload '}</span>
+            </Label>
+
+            <span>{imageUpload ? "" : "Выберите файл"}</span>
 
             <button
                 onClick={() => {
@@ -55,6 +64,7 @@ export default function Spoiler({ isOpenSpoiler, setOpenSpoiler, id, deleteImage
                     setTimeout(() => {
                         getImagesList();
                     }, 300);
+                    setImageUpload('');
                 }}
             >загрузить файл</button>
 
@@ -65,12 +75,14 @@ export default function Spoiler({ isOpenSpoiler, setOpenSpoiler, id, deleteImage
                     setOpenSpoiler(false);
                 }}
             >удалить файлы</button>
+            <ImgList>
+                {
+                    imageList.map((url) => {
+                        return <ImgItem><Img key={url} src={url} alt="" /></ImgItem>;
+                    })
+                }
 
-            {
-                imageList.map((url) => {
-                    return <img key={url} src={url} alt="" />;
-                })
-            }
+            </ImgList>
         </SpoilerWrapper>
     )
 }
