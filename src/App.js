@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 import { db } from './firebaseConfig';
-import { collection, getDocs, doc, setDoc, deleteDoc, serverTimestamp } from 'firebase/firestore';
+import { collection, getDocs, doc, setDoc, serverTimestamp } from 'firebase/firestore';
 
 import Search from './components/search/Search';
 import Form from './components/form/Form';
@@ -26,18 +26,6 @@ function App() {
       console.log("ошибка подключения", error);
     });
   }, [])
-
-  const onTaskRemove = (id) => {
-    const item = doc(db, "Tasks", id);
-    tasks.filter(
-      async task => {
-        if (task.id !== id) return task;
-        await deleteDoc(item);
-        getAllDocument().then(setTasks);
-        return setTasks(tasks)
-      }
-    )
-  }
 
   const onTaskAdd = async (title) => {
     if (inputValue) {
@@ -72,7 +60,6 @@ function App() {
 
       <TaskList
         search={search}
-        taskRemove={onTaskRemove}
         setTasks={setTasks}
         tasks={tasks}
         getAllDocument={getAllDocument}

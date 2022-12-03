@@ -2,7 +2,9 @@ import React from 'react';
 import { useState, useRef, useEffect } from 'react';
 
 import { db } from '../../firebaseConfig';
-import { doc, updateDoc } from "firebase/firestore";
+import { doc, updateDoc, deleteDoc } from "firebase/firestore";
+import { storage } from '../../firebaseConfig';
+import { ref, listAll, deleteObject } from 'firebase/storage';
 
 import Spoiler from "../spoiler/Spoiler"
 
@@ -10,7 +12,7 @@ import { ButtonDelete, ButtonEdit, ButtonSave, ButtonSpoilerClose, ButtonSpoiler
 import { InputEdit, InputLabel, InputCheckBox } from '../input/Input';
 import { TaskItem, TaskWrapper, TaskButtonsWrapper, TaskListStyled, TaskText, TaskTime, TaskSpan } from './styled';
 
-export default function TaskList({ tasks, setTasks, taskRemove, search, getAllDocument }) {
+export default function TaskList({ tasks, setTasks, search, getAllDocument }) {
     const [isEditMode, setEditMode] = useState();
     const [value, setValue] = useState('');
     const [isOpenSpoiler, setOpenSpoiler] = useState();
@@ -50,6 +52,35 @@ export default function TaskList({ tasks, setTasks, taskRemove, search, getAllDo
         }
         );
     }
+
+    const deleteImages = (id) => {
+        // получает ссылку на задачу (в которую вложены все изображения)
+        const listRef = ref(storage, `images/${id}`);
+        listAll(listRef)
+            .then((res) => {
+                res.items.forEach((item) => {
+                    deleteObject(item);
+                    console.log("изображения удалены");
+                });
+            }).catch((error) => {
+                console.log("не удалось удалить", error);
+            });
+    }
+
+    const onTaskRemove = (id) => {
+        const item = doc(db, "Tasks", id);
+        tasks.filter(
+            async task => {
+                if (task.id !== id) return task;
+                await deleteDoc(item);
+                getAllDocument().then(setTasks);
+                deleteImages(id);
+                return setTasks(tasks)
+            }
+        )
+    }
+
+
 
     return (
         <TaskListStyled>
@@ -104,7 +135,7 @@ export default function TaskList({ tasks, setTasks, taskRemove, search, getAllDo
                                 <ButtonDelete
                                     onClick={() => {
                                         if (window.confirm("Удалить задачу?")) {
-                                            taskRemove(task.id);
+                                            onTaskRemove(task.id);
                                         }
                                     }}
                                     arial-label="Удалить" />
@@ -127,6 +158,7 @@ export default function TaskList({ tasks, setTasks, taskRemove, search, getAllDo
                             <Spoiler
                                 id={task.id}
                                 isOpenSpoiler={isOpenSpoiler}
+                                deleteImages={deleteImages}
                             />
                         ) : ('')}
 

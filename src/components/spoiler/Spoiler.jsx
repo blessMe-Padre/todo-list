@@ -2,11 +2,11 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 
 import { storage } from '../../firebaseConfig';
-import { ref, uploadBytes, listAll, getDownloadURL, deleteObject } from 'firebase/storage';
+import { ref, uploadBytes, listAll, getDownloadURL } from 'firebase/storage';
 
 import { SpoilerWrapper } from "./styled"
 
-export default function Spoiler({ isOpenSpoiler, id }) {
+export default function Spoiler({ isOpenSpoiler, id, deleteImages }) {
     const [imageUpload, setImageUpload] = useState(null);
     const [imageList, setImageList] = useState([]);
 
@@ -26,20 +26,6 @@ export default function Spoiler({ isOpenSpoiler, id }) {
             console.log("не удалось загрузить изображение", error);
         });
     };
-
-    const deleteImages = () => {
-        // получает ссылку на задачу (в которую вложены все изображения)
-        const listRef = ref(storage, `images/${id}`);
-        listAll(listRef)
-            .then((res) => {
-                res.items.forEach((item) => {
-                    deleteObject(item);
-                });
-                alert('Изображения удалены');
-            }).catch((error) => {
-                console.log("не удалось удалить", error);
-            });
-    }
 
     useEffect(() => {
         listAll(imageRefList).then((response) => {
@@ -65,7 +51,7 @@ export default function Spoiler({ isOpenSpoiler, id }) {
             >загрузить файл</button>
 
             <button
-                onClick={deleteImages}
+                onClick={() => deleteImages(id)}
             >удалить файлы</button>
 
             {
