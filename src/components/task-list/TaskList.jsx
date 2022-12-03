@@ -158,6 +158,7 @@ export default function TaskList({ tasks, setTasks, search, getAllDocument }) {
                             <Spoiler
                                 id={task.id}
                                 isOpenSpoiler={isOpenSpoiler}
+                                setOpenSpoiler={setOpenSpoiler}
                                 deleteImages={deleteImages}
                             />
                         ) : ('')}

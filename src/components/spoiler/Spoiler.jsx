@@ -6,7 +6,7 @@ import { ref, uploadBytes, listAll, getDownloadURL } from 'firebase/storage';
 
 import { SpoilerWrapper } from "./styled"
 
-export default function Spoiler({ isOpenSpoiler, id, deleteImages }) {
+export default function Spoiler({ isOpenSpoiler, setOpenSpoiler, id, deleteImages }) {
     const [imageUpload, setImageUpload] = useState(null);
     const [imageList, setImageList] = useState([]);
 
@@ -21,13 +21,13 @@ export default function Spoiler({ isOpenSpoiler, id, deleteImages }) {
 
         //загружает файл в БД из состояния "imageUpload" по пути "imageRef"
         uploadBytes(imageRef, imageUpload).then(() => {
-            alert('изображение загружено');
+            // alert('изображение загружено');
         }).catch((error) => {
             console.log("не удалось загрузить изображение", error);
         });
     };
 
-    useEffect(() => {
+    const getImagesList = () => {
         listAll(imageRefList).then((response) => {
             response.items.forEach((item) => {
                 getDownloadURL(item).then((url) => {
@@ -35,9 +35,11 @@ export default function Spoiler({ isOpenSpoiler, id, deleteImages }) {
                 })
             })
         });
-    }, [])
+    }
 
-    console.log(imageList);
+    useEffect(() => {
+        getImagesList();
+    }, [])
 
     return (
         <SpoilerWrapper isOpenSpoiler={isOpenSpoiler} >
@@ -47,11 +49,21 @@ export default function Spoiler({ isOpenSpoiler, id, deleteImages }) {
             />
 
             <button
-                onClick={uploadImages}
+                onClick={() => {
+                    uploadImages();
+                    alert("Файл загружен");
+                    setTimeout(() => {
+                        getImagesList();
+                    }, 300);
+                }}
             >загрузить файл</button>
 
             <button
-                onClick={() => deleteImages(id)}
+                onClick={() => {
+                    deleteImages(id);
+                    alert("Файлы удалены");
+                    setOpenSpoiler(false);
+                }}
             >удалить файлы</button>
 
             {
