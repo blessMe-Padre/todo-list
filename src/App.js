@@ -12,32 +12,32 @@ function App() {
   const [tasks, setTasks] = useState([]);
   const [inputValue, setInputValue] = useState('');
   const [search, setSearch] = useState('');
+
   const time = new Date().toLocaleString();
 
   useEffect(() => {
     getAllDocument().then(setTasks);
   }, [])
 
-  const getDeletedDocument = async function (id) {
-    const querySnapshot = await deleteDoc(doc(db, "Tasks", id));
-    return querySnapshot;
-  }
-
-  const onTaskRemove = (id) => {
-    getDeletedDocument(id).then(setTasks(tasks.filter((task) => task.id !== id)));
-  }
-
-
-
-
   const getAllDocument = async function () {
     const querySnapshot = await getDocs(collection(db, "Tasks"));
     const taskList = querySnapshot.docs.map(doc => doc.data());
-
     return taskList;
   }
 
-  const taskAdd = async (title) => {
+  const onTaskRemove = (id) => {
+    const item = doc(db, "Tasks", id);
+    tasks.filter(
+      async task => {
+        if (task.id !== id) return task;
+        await deleteDoc(item);
+        getAllDocument().then(setTasks);
+        return setTasks(tasks)
+      }
+    )
+  }
+
+  const onTaskAdd = async (title) => {
     if (inputValue) {
       const task = doc(collection(db, "Tasks"));
       await setDoc(task, {
@@ -53,13 +53,13 @@ function App() {
   }
 
   return (
-
     <PageWrapper>
       <Title>Список дел</Title>
+
       <Form
         inputValue={inputValue}
         setInputValue={setInputValue}
-        taskAdd={taskAdd}
+        taskAdd={onTaskAdd}
       />
 
       <Search
@@ -67,6 +67,7 @@ function App() {
         search={search}
         setSearch={setSearch}
       />
+
       <TaskList
         search={search}
         taskRemove={onTaskRemove}
