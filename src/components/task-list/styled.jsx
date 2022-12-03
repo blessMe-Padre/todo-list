@@ -45,10 +45,3 @@ export const TaskButtonsWrapper = styled.div`
 export const TaskSpan = styled.span`
     padding-bottom: 10px;
 `
-
-export const TaskSpoiler = styled.div`
-    transition: min-height 0.3s ease-in ;
-    background-color:  var(--color-aliceblue);
-    min-height: ${(p) => (
-        p.isOpenSpoiler ? "150px" : "0")};
-`

@@ -4,9 +4,11 @@ import { useState, useRef, useEffect } from 'react';
 import { db } from '../../firebaseConfig';
 import { doc, updateDoc } from "firebase/firestore";
 
+import Spoiler from "../spoiler/Spoiler"
+
 import { ButtonDelete, ButtonEdit, ButtonSave, ButtonSpoilerClose, ButtonSpoilerOpen } from '../buttons/Buttons';
 import { InputEdit, InputLabel, InputCheckBox } from '../input/Input';
-import { TaskItem, TaskWrapper, TaskButtonsWrapper, TaskListStyled, TaskText, TaskTime, TaskSpan, TaskSpoiler } from './styled';
+import { TaskItem, TaskWrapper, TaskButtonsWrapper, TaskListStyled, TaskText, TaskTime, TaskSpan } from './styled';
 
 export default function TaskList({ tasks, setTasks, taskRemove, search, getAllDocument }) {
     const [isEditMode, setEditMode] = useState();
@@ -58,88 +60,86 @@ export default function TaskList({ tasks, setTasks, taskRemove, search, getAllDo
     }
 
     return (
-        <section>
-            <TaskListStyled>
-                {tasks.length <= 0 && (<p>Список задач пуст</p>)}
+        <TaskListStyled>
+            {tasks.length <= 0 && (<p>Список задач пуст</p>)}
 
-                {tasks
-                    .filter(task => task.title.toLowerCase().includes(search.toLowerCase()))
-                    .sort((a, b) => a - b)
-                    .map((task) => (
-                        <TaskItem key={task.id}>
-                            <TaskWrapper>
-                                <TaskText>
-                                    <TaskTime>{task.time}</TaskTime>
-                                    <InputCheckBox
-                                        key={task.id}
-                                        id={task.id}
-                                        type="checkbox"
-                                        checked={task.completed}
-                                        onChange={() => {
-                                            toggleTaskCompleted(task.id);
+            {tasks
+                .filter(task => task.title.toLowerCase().includes(search.toLowerCase()))
+                .sort((a, b) => a - b)
+                .map((task) => (
+                    <TaskItem key={task.id}>
+                        <TaskWrapper>
+                            <TaskText>
+                                <TaskTime>{task.time}</TaskTime>
+                                <InputCheckBox
+                                    key={task.id}
+                                    id={task.id}
+                                    type="checkbox"
+                                    checked={task.completed}
+                                    onChange={() => {
+                                        toggleTaskCompleted(task.id);
+                                    }} />
+                                <InputLabel htmlFor={task.id} />
+
+                                {isEditMode === task.id ? (
+                                    <InputEdit
+                                        type="text"
+                                        ref={editTitleInputRef}
+                                        value={value}
+                                        onChange={(evt) => {
+                                            setValue(evt.target.value);
                                         }} />
-                                    <InputLabel htmlFor={task.id} />
+                                ) : (<TaskSpan>{task.title}</TaskSpan>)}
+                            </TaskText>
 
-                                    {isEditMode === task.id ? (
-                                        <InputEdit
-                                            type="text"
-                                            ref={editTitleInputRef}
-                                            value={value}
-                                            onChange={(evt) => {
-                                                setValue(evt.target.value);
-                                            }} />
-                                    ) : (<TaskSpan>{task.title}</TaskSpan>)}
-                                </TaskText>
-
-                                <TaskButtonsWrapper>
-                                    {isEditMode === task.id ? (
-                                        <ButtonSave
-                                            onClick={() => {
-                                                taskEdited(task.id, value);
-                                                setEditMode(false);
-                                            }}
-                                            arial-label="Сохранить" />
-                                    ) : (
-                                        <ButtonEdit
-                                            onClick={() => {
-                                                setEditMode(task.id);
-                                                setValue(task.title);
-                                            }}
-                                            arial-label="Редактировать" />
-                                    )}
-
-                                    <ButtonDelete
+                            <TaskButtonsWrapper>
+                                {isEditMode === task.id ? (
+                                    <ButtonSave
                                         onClick={() => {
-                                            if (window.confirm("Удалить задачу?")) {
-                                                taskRemove(task.id);
-                                            }
+                                            taskEdited(task.id, value);
+                                            setEditMode(false);
                                         }}
-                                        arial-label="Удалить" />
+                                        arial-label="Сохранить" />
+                                ) : (
+                                    <ButtonEdit
+                                        onClick={() => {
+                                            setEditMode(task.id);
+                                            setValue(task.title);
+                                        }}
+                                        arial-label="Редактировать" />
+                                )}
+
+                                <ButtonDelete
+                                    onClick={() => {
+                                        if (window.confirm("Удалить задачу?")) {
+                                            taskRemove(task.id);
+                                        }
+                                    }}
+                                    arial-label="Удалить" />
 
 
-                                    {isOpenSpoiler === task.id ? (
-                                        <ButtonSpoilerClose
-                                            onClick={() => { setOpenSpoiler(false) }}
-                                            arial-label="закрыть" />
-                                    ) : (
+                                {isOpenSpoiler === task.id ? (
+                                    <ButtonSpoilerClose
+                                        onClick={() => { setOpenSpoiler(false) }}
+                                        arial-label="закрыть" />
+                                ) : (
 
-                                        <ButtonSpoilerOpen
-                                            onClick={() => { setOpenSpoiler(task.id) }}
-                                            arial-label="прикрепить файл" />
-                                    )}
-                                </TaskButtonsWrapper>
-                            </TaskWrapper>
+                                    <ButtonSpoilerOpen
+                                        onClick={() => { setOpenSpoiler(task.id) }}
+                                        arial-label="прикрепить файл" />
+                                )}
+                            </TaskButtonsWrapper>
+                        </TaskWrapper>
 
-                            {isOpenSpoiler === task.id ? (
-                                <TaskSpoiler
-                                    isOpenSpoiler={isOpenSpoiler}
-                                />
-                            ) : ('')}
+                        {isOpenSpoiler === task.id ? (
+                            <Spoiler
+                                isOpenSpoiler={isOpenSpoiler}
+                            />
+                        ) : ('')}
 
-                        </TaskItem>
-                    ))
-                }
-            </TaskListStyled>
-        </section >
+                    </TaskItem>
+                ))
+            }
+        </TaskListStyled>
     )
 }
