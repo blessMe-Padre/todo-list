@@ -15,15 +15,17 @@ function App() {
 
   const time = new Date().toLocaleString();
 
-  useEffect(() => {
-    getAllDocument().then(setTasks);
-  }, [])
-
   const getAllDocument = async function () {
     const querySnapshot = await getDocs(collection(db, "Tasks"));
     const taskList = querySnapshot.docs.map(doc => doc.data());
     return taskList;
   }
+
+  useEffect(() => {
+    getAllDocument().then(setTasks).catch(error => {
+      console.log("ошибка подключения", error);
+    });
+  }, [])
 
   const onTaskRemove = (id) => {
     const item = doc(db, "Tasks", id);

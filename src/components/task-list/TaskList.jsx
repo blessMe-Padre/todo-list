@@ -125,6 +125,7 @@ export default function TaskList({ tasks, setTasks, taskRemove, search, getAllDo
 
                         {isOpenSpoiler === task.id ? (
                             <Spoiler
+                                id={task.id}
                                 isOpenSpoiler={isOpenSpoiler}
                             />
                         ) : ('')}
