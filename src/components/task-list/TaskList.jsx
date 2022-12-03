@@ -24,35 +24,27 @@ export default function TaskList({ tasks, setTasks, taskRemove, search, getAllDo
     }, [isEditMode])
 
 
-    const onEditTaskToggle = async (id, task) => {
+    const onToggleTaskCompleted = (id) => {
         const item = doc(db, "Tasks", id);
-        await updateDoc(item, {
-            completed: !task.completed,
-        });
-    }
-
-    const toggleTaskCompleted = (id) => {
         tasks.map(
-            task => {
+            async task => {
                 if (task.id !== id) return task;
-                onEditTaskToggle(id, task);
+                await updateDoc(item, {
+                    completed: !task.completed,
+                });
                 getAllDocument().then(setTasks);
                 return setTasks(tasks)
             }
         )
     }
 
-    const onEditTaskTitle = async (id, inputValue) => {
+    const onTaskEdited = (id, inputValue) => {
         const item = doc(db, "Tasks", id);
-        await updateDoc(item, {
-            title: inputValue,
-        });
-    }
-
-    const taskEdited = (id, inputValue) => {
-        tasks.map(task => {
+        tasks.map(async task => {
             if (task.id !== id) return task;
-            onEditTaskTitle(id, inputValue);
+            await updateDoc(item, {
+                title: inputValue,
+            });
             getAllDocument().then(setTasks);
             return setTasks(tasks)
         }
@@ -77,7 +69,7 @@ export default function TaskList({ tasks, setTasks, taskRemove, search, getAllDo
                                     type="checkbox"
                                     checked={task.completed}
                                     onChange={() => {
-                                        toggleTaskCompleted(task.id);
+                                        onToggleTaskCompleted(task.id);
                                     }} />
                                 <InputLabel htmlFor={task.id} />
 
@@ -96,7 +88,7 @@ export default function TaskList({ tasks, setTasks, taskRemove, search, getAllDo
                                 {isEditMode === task.id ? (
                                     <ButtonSave
                                         onClick={() => {
-                                            taskEdited(task.id, value);
+                                            onTaskEdited(task.id, value);
                                             setEditMode(false);
                                         }}
                                         arial-label="Сохранить" />

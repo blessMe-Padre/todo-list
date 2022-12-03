@@ -23,6 +23,13 @@ function App() {
     return querySnapshot;
   }
 
+  const onTaskRemove = (id) => {
+    getDeletedDocument(id).then(setTasks(tasks.filter((task) => task.id !== id)));
+  }
+
+
+
+
   const getAllDocument = async function () {
     const querySnapshot = await getDocs(collection(db, "Tasks"));
     const taskList = querySnapshot.docs.map(doc => doc.data());
@@ -45,10 +52,6 @@ function App() {
     getAllDocument().then(setTasks);
   }
 
-  const taskRemove = (id) => {
-    getDeletedDocument(id).then(setTasks(tasks.filter((task) => task.id !== id)));
-  }
-
   return (
 
     <PageWrapper>
@@ -66,7 +69,7 @@ function App() {
       />
       <TaskList
         search={search}
-        taskRemove={taskRemove}
+        taskRemove={onTaskRemove}
         setTasks={setTasks}
         tasks={tasks}
         getAllDocument={getAllDocument}
