@@ -42,7 +42,7 @@ export const InputLabel = styled.label`
     &::before {
         position: absolute;
         content: " ";
-        top: 3px;
+        top: 6px;
         left: 0;
         height: 20px;
         width: 20px;
@@ -60,7 +60,7 @@ export const InputCheckBox = styled.input`
     &:checked + ${InputLabel}::after{
         position: absolute;
         content: " ";
-        top: 3px;
+        top: 6px;
         left: 1px;
         height: 20px;
         width: 20px;

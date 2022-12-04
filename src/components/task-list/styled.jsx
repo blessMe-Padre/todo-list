@@ -9,7 +9,7 @@ export const TaskItem = styled.li`
     display: flex;
     flex-direction: column;
     border-bottom: 2px solid var(--color-aliceblue);
-    margin-bottom: 40px;
+    margin-bottom: 20px;
 `
 export const TaskWrapper = styled.div`
     position: relative;
@@ -17,15 +17,15 @@ export const TaskWrapper = styled.div`
     align-items: flex-start;
     justify-content: space-between;
     max-width: 600px;
-    font-size: 18px;
-    line-height: 20px;
-    padding-bottom: 40px;
-    margin-bottom: 20px;
+    font-size: calc(10px + 2vmin);
+    line-height: 1.2;
+    padding-bottom: 25px;
+    margin-bottom: 10px;
 `
 
 export const TaskTime = styled.p`
     position: absolute;
-    bottom: 5px;
+    bottom: 15px;
     left: 36px;
     margin: 0;
     font-size: 10px;

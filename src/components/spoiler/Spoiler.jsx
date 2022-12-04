@@ -5,7 +5,9 @@ import { storage } from '../../firebaseConfig';
 import { ref, uploadBytes, listAll, getDownloadURL } from 'firebase/storage';
 import { v4 } from 'uuid'
 
-import { SpoilerWrapper, SpoilerInput, Label, ImgList, ImgItem, Img } from "./styled"
+import { SpoilerWrapper, SpoilerControls, SpoilerInputs, SpoilerInput, Label, ImgList, ImgItem, Img, Span } from "./styled"
+import { ButtonUploadFile } from '../../components/buttons/Buttons'
+
 
 export default function Spoiler({ isOpenSpoiler, setOpenSpoiler, id, deleteImages }) {
     const [imageUpload, setImageUpload] = useState();
@@ -48,45 +50,47 @@ export default function Spoiler({ isOpenSpoiler, setOpenSpoiler, id, deleteImage
 
     return (
         <SpoilerWrapper isOpenSpoiler={isOpenSpoiler} >
-            <Label>
-                <SpoilerInput
-                    type="file"
-                    accept='image/jpeg, image/png'
-                    onChange={(evt) => {
-                        setImageUpload(evt.target.files[0]);
-                    }}
-                />
-                <span>{imageUpload ? `имя файла: ${imageUpload.name}` : 'click to upload '}</span>
-            </Label>
+            <SpoilerControls>
+                <SpoilerInputs>
+                    <Label>
+                        <SpoilerInput
+                            type="file"
+                            accept='image/jpeg, image/png'
+                            onChange={(evt) => {
+                                setImageUpload(evt.target.files[0]);
+                            }}
+                        />
+                        <span>{imageUpload ? `имя файла: ${imageUpload.name}` : 'click to upload '}</span>
+                    </Label>
 
-            <span>{imageUpload ? "" : "Выберите файл"}</span>
+                    <Span>{imageUpload ? "" : "Выберите файл"}</Span>
+                </SpoilerInputs>
+                <div>
+                    <ButtonUploadFile
+                        disabled={!imageUpload}
+                        onClick={() => {
+                            uploadImages();
+                            alert("Файл загружен");
+                            setOpenSpoiler(false);
+                        }}
+                    >загрузить файл</ButtonUploadFile>
 
-            <button
-                disabled={!imageUpload}
-                onClick={() => {
-                    uploadImages();
-                    alert("Файл загружен");
-                    setOpenSpoiler(false);
-                }}
-            >загрузить файл</button>
-
-            <button
-                disabled={imageList.length === 0}
-                onClick={() => {
-                    deleteImages(id);
-                    alert("Файлы удалены");
-                    setOpenSpoiler(false);
-                }}
-            >удалить файлы</button>
+                    <ButtonUploadFile
+                        disabled={imageList.length === 0}
+                        onClick={() => {
+                            deleteImages(id);
+                            alert("Файлы удалены");
+                            setOpenSpoiler(false);
+                        }}
+                    >удалить файлы</ButtonUploadFile>
+                </div>
+            </SpoilerControls>
             <ImgList>
                 {
                     imageList.map((url) => {
                         return <ImgItem key={v4()}><Img src={url} alt="" /></ImgItem>;
                     })
                 }
-
-                {console.log(imageList)}
-
             </ImgList>
         </SpoilerWrapper>
     )

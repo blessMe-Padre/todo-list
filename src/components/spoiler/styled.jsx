@@ -1,8 +1,21 @@
 import styled from "styled-components";
 
 export const SpoilerWrapper = styled.div`
-padding: 0;
-margin-bottom: 20px;
+    font-size: calc(10px + 1vmin);
+    padding: 20px 0 10px;
+    border-top: 2px solid var(--color-aliceblue);
+    margin-bottom: 20px;
+`
+export const SpoilerControls = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+`
+
+export const SpoilerInputs = styled.div`
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
 `
 
 export const SpoilerInput = styled.input`
@@ -14,8 +27,9 @@ export const SpoilerInput = styled.input`
 `
 
 export const Label = styled.label`
-    width: 60px;
-    height: 32px;
+    display: block;
+    box-sizing: border-box;
+    min-width: 60px;
     border: 2px dashed var(--color-aliceblue);
     background-color: transparent;
     color: var(--color-aliceblue);
@@ -35,4 +49,8 @@ export const Img = styled.img`
     width: 100%;
     height: 100%;
     object-fit: cover;
+`
+
+export const Span = styled.span`
+    margin: 0 10px;
 `
