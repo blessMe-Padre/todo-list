@@ -3,12 +3,9 @@
   --color-aliceblue: #f0f8ff;
   --color-blue: #3F72AF;
 }
-html {
-  height: 100%;
-}
+
 
 body {
-  height: 100vh;
   display: block;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -16,7 +13,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: linear-gradient(128deg, rgba(72,173,255,1) 5%, rgba(51,107,255,1) 93%);
+  /* background: linear-gradient(128deg, rgba(72,173,255,1) 5%, rgba(51,107,255,1) 93%); */
+  background-color: rgba(72,173,255,1);
   font-size: 16px;
   color:  var(--color-aliceblue);
 }

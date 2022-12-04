@@ -3,12 +3,20 @@ import { useState, useEffect } from 'react';
 
 import { storage } from '../../firebaseConfig';
 import { ref, uploadBytes, listAll, getDownloadURL } from 'firebase/storage';
+import { v4 } from 'uuid'
 
 import { SpoilerWrapper, SpoilerInput, Label, ImgList, ImgItem, Img } from "./styled"
 
 export default function Spoiler({ isOpenSpoiler, setOpenSpoiler, id, deleteImages }) {
     const [imageUpload, setImageUpload] = useState();
     const [imageList, setImageList] = useState([]);
+
+
+    /**
+     * FIXME:
+     *   - исправить ошибку key для картинок
+     *  - сделать кнопку загрузить disable
+     */
 
     // получает ссылку на список файлов из БД
     const imageRefList = ref(storage, `images/${id}`);
@@ -17,7 +25,7 @@ export default function Spoiler({ isOpenSpoiler, setOpenSpoiler, id, deleteImage
         if (imageUpload == null) return;
 
         //генерирует новый путь и имя файла
-        const imageRef = ref(storage, `images/${id}/${imageUpload.name + id}`);
+        const imageRef = ref(storage, `images/${id}/${imageUpload.name + v4()}`);
 
         //загружает файл в БД из состояния "imageUpload" по пути "imageRef"
         uploadBytes(imageRef, imageUpload).then(() => {
@@ -27,7 +35,7 @@ export default function Spoiler({ isOpenSpoiler, setOpenSpoiler, id, deleteImage
         });
     };
 
-    const getImagesList = () => {
+    useEffect(() => {
         listAll(imageRefList).then((response) => {
             response.items.forEach((item) => {
                 getDownloadURL(item).then((url) => {
@@ -35,10 +43,6 @@ export default function Spoiler({ isOpenSpoiler, setOpenSpoiler, id, deleteImage
                 })
             })
         });
-    }
-
-    useEffect(() => {
-        getImagesList();
     }, [])
 
 
@@ -52,23 +56,22 @@ export default function Spoiler({ isOpenSpoiler, setOpenSpoiler, id, deleteImage
                         setImageUpload(evt.target.files[0]);
                     }}
                 />
-                <span>{imageUpload ? `имя файла ${imageUpload.name}` : 'click to upload '}</span>
+                <span>{imageUpload ? `имя файла: ${imageUpload.name}` : 'click to upload '}</span>
             </Label>
 
             <span>{imageUpload ? "" : "Выберите файл"}</span>
 
             <button
+                disabled={!imageUpload}
                 onClick={() => {
                     uploadImages();
                     alert("Файл загружен");
-                    setTimeout(() => {
-                        getImagesList();
-                    }, 300);
-                    setImageUpload('');
+                    setOpenSpoiler(false);
                 }}
             >загрузить файл</button>
 
             <button
+                disabled={imageList.length === 0}
                 onClick={() => {
                     deleteImages(id);
                     alert("Файлы удалены");
@@ -78,9 +81,11 @@ export default function Spoiler({ isOpenSpoiler, setOpenSpoiler, id, deleteImage
             <ImgList>
                 {
                     imageList.map((url) => {
-                        return <ImgItem><Img key={url} src={url} alt="" /></ImgItem>;
+                        return <ImgItem key={v4()}><Img src={url} alt="" /></ImgItem>;
                     })
                 }
+
+                {console.log(imageList)}
 
             </ImgList>
         </SpoilerWrapper>
